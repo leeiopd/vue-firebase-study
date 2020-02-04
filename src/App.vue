@@ -94,6 +94,11 @@ export default {
             {
               title: "layout",
               to: "/lectures/layout"
+            },
+
+            {
+              title: "notes",
+              to: "/lectures/notes"
             }
           ]
         }

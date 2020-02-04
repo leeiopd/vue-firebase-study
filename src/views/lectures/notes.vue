@@ -28,9 +28,11 @@
             </v-card-title>
             <v-divider></v-divider>
             <v-card-text>{{ props.item.content }}</v-card-text>
+            <v-card-text>{{ props.item.id }}</v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn @click="put(props.item)">put</v-btn>
+              <v-btn @click="put(props.item.id)">put</v-btn>
+              <v-btn @click="del(props.item.id)">del</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -51,27 +53,71 @@ export default {
     content: ""
   }),
   mounted() {
-    this.items.push({
-      title: "abc",
-      content: "jjjj"
-    });
-    this.items.push({
-      title: "abc",
-      content: "jjjj"
-    });
+    this.get();
   },
   methods: {
-    post() {
-      this.items.push({
-        title: this.title,
-        content: this.content
-      });
+    async post() {
+      // this.items.push({
+      //   title: this.title,
+      //   content: this.content
+      // });
+
+      const r = await this.$firebase
+        .firestore()
+        .collection("notes")
+        .add({
+          title: this.title,
+          content: this.content
+        });
       this.title = "";
       this.content = "";
+      this.get();
     },
-    get() {},
-    put() {},
-    del() {}
+    async get() {
+      const snapshot = await this.$firebase
+        .firestore()
+        .collection("notes")
+        .get();
+
+      this.items = [];
+
+      snapshot.forEach(v => {
+        console.log(v.id);
+
+        const { title, content } = v.data();
+
+        this.items.push({
+          title,
+          content,
+          id: v.id
+        });
+      });
+
+      console.log(snapshot);
+    },
+    async put(id) {
+      const r = await this.$firebase
+        .firestore()
+        .collection("notes")
+        .doc(id)
+        .set({
+          title: this.title,
+          content: this.content
+        });
+
+      this.title = "";
+      this.content = "";
+      await this.get();
+    },
+    async del(id) {
+      const r = await this.$firebase
+        .firestore()
+        .collection("notes")
+        .doc(id)
+        .delete();
+
+      this.get();
+    }
   }
 };
 </script>
