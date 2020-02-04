@@ -13,6 +13,4 @@ import "firebase/firestore"
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-firebase.firestore().collection('test').add({ test: 'aaa' })
-    .then(r => console.log(r))
-    .catch(e => console.log(e.message))
+Vue.prototype.$firebase = firebase
