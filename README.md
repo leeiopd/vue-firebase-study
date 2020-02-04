@@ -1,4 +1,4 @@
-# vue-firebase_toy
+# vue-firebase_study_pjt
 
 ## Project setup
 ```
