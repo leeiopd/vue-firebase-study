@@ -32,7 +32,7 @@ export default {
       this.$firebase.auth().languageCode = "ko";
 
       const r = await this.$firebase.auth().signInWithPopup(provider);
-      console.log(r);
+      console.log(this);
     },
 
     async signInWithEmail() {

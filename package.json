@@ -27,5 +27,17 @@
     "vue-cli-plugin-vuetify": "0.5",
     "vue-template-compiler": "^2.6.10",
     "vuetify-loader": "^1.0.5"
-  }
+  },
+  "description": "## Project setup ``` yarn install ```",
+  "main": "babel.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leeiopd/vue-firebase-toy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leeiopd/vue-firebase-toy/issues"
+  },
+  "homepage": "https://github.com/leeiopd/vue-firebase-toy#readme"
 }

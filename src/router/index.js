@@ -11,12 +11,6 @@ const routes = [
     component: Home
   },
   {
-    path: "/sign",
-    name: "sign",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/sign.vue")
-  },
-  {
     path: "/about",
     name: "about",
     // route level code-splitting
@@ -46,9 +40,16 @@ const routes = [
     component: () => import("../views/lectures/notes.vue")
   },
   {
+    path: "/sign",
+    name: "sign",
+    component: () =>
+      import("../views/sign.vue")
+  },
+  {
     path: "*",
     component: () => import("../views/e404.vue")
-  }
+  },
+
 ];
 
 const router = new VueRouter({
