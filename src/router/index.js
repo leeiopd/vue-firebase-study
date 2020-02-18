@@ -40,6 +40,12 @@ const routes = [
     component: () => import("../views/lectures/notes.vue")
   },
   {
+    path: "/lectures/axios",
+    name: "axios",
+    component: () =>
+      import("../views/lectures/axios.vue")
+  },
+  {
     path: "/sign",
     name: "sign",
     component: () =>
