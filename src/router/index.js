@@ -41,9 +41,13 @@ const routes = [
   },
   {
     path: "/lectures/axios",
-    name: "axios",
     component: () =>
       import("../views/lectures/axios.vue")
+  },
+  {
+    path: "/lectures/mother",
+    component: () =>
+      import("../views/lectures/mother.vue")
   },
   {
     path: "/sign",
