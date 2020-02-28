@@ -50,6 +50,11 @@ const routes = [
       import("../views/lectures/mother.vue")
   },
   {
+    path: "/lectures/vuex",
+    component: () =>
+      import("../views/lectures/vuex.vue")
+  },
+  {
     path: "/sign",
     name: "sign",
     component: () =>

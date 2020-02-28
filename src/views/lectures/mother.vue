@@ -32,6 +32,9 @@ export default {
     //   엄마에게 보고 받은것을 띄움
     listen() {
       this.call = true;
+
+      // 변화를 확인하지 못함 -> title 변화 X
+      this.$global = "변했다.";
     }
   }
 };
