@@ -9,8 +9,15 @@ import firebaseConfig from "../../firebaseConfig"
 import "firebase/auth";
 import "firebase/firestore"
 
+import store from "../store"
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
 Vue.prototype.$firebase = firebase
+
+firebase.auth().onAuthStateChanged((user) => {
+    console.log(user)
+    // store.commit('setUser', user)
+    store.dispatch('getUserToken', user)
+});

@@ -41,9 +41,10 @@
         </v-list-group>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar color="lime">
+    <v-toolbar color="indigo" dark>
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>{{ $store.state.title }}</v-toolbar-title>
+      <v-toolbar-title>{{ $store.state.user ? $store.state.user.displayName: '로그인 안됨' }}</v-toolbar-title>
+      <!-- <v-toolbar-title>{{ $store.state.token ? $store.state.token: '토큰없음 안됨' }}</v-toolbar-title> -->
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn icon>
