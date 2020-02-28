@@ -11,6 +11,10 @@ import error from "./error"
 
 Vue.config.productionTip = false;
 
+const global = 'abcd'
+
+// 전역 선언
+Vue.prototype.$global = global
 
 
 new Vue({
