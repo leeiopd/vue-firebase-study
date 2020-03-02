@@ -10,14 +10,23 @@ import "firebase/auth";
 import "firebase/firestore"
 
 import store from "../store"
+import router from "../router"
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
 Vue.prototype.$firebase = firebase
+Vue.prototype.$isFirebaseAuth = false
 
 firebase.auth().onAuthStateChanged((user) => {
+    Vue.prototype.$isFirebaseAuth = true
     console.log(user)
+
+    if (user) {
+        router.push('/')
+    } else {
+        router.push('/sign')
+    }
     // store.commit('setUser', user)
     store.dispatch('getUserToken', user)
 });

@@ -8,7 +8,11 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: Home
+    component: Home,
+    beforeEnter: (to, from, next) => {
+      console.log('bf enter')
+      next()
+    }
   },
   {
     path: "/about",
@@ -72,5 +76,26 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
+
+
+// Vue router 가드를 이용하여 모든 페이지 랜더링 이전에
+// 로그인을 확인하게됨
+
+
+// vue router 가드 순서 : bf each -> af enter -> af each
+// 속도가 느릴 수 있음
+
+router.beforeEach((to, from, next) => {
+  Vue.prototype.$Progress.start();
+  setTimeout(() => {
+    if (Vue.prototype.$isFirebaseAuth) next()
+
+  }, 2000)
+})
+
+router.afterEach((to, from, next) => {
+  Vue.prototype.$Progress.finish();
+})
+
 
 export default router;
