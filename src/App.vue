@@ -47,13 +47,24 @@
       <!-- <v-toolbar-title>{{ $store.state.token ? $store.state.token: '토큰없음 안됨' }}</v-toolbar-title> -->
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn icon>
+        <v-btn icon @click="signOut">
           <v-icon>mdi-dots-vertical</v-icon>
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
     <v-content>
+      <vue-progress-bar></vue-progress-bar>
+      <v-container grid-list-md v-if="!$isFirebaseAuth">
+        <v-layout row wrap align-center justify-center>
+          <v-card color="transparent" flat>
+            <v-card-text class="text-xs-center">
+              <v-progress-circular indeterminate color="primary"></v-progress-circular>
+            </v-card-text>
+            <v-card-text class="text-xs-center">인증 상태를 기다리는 중입니다.</v-card-text>
+          </v-card>
+        </v-layout>
+      </v-container>
       <router-view></router-view>
     </v-content>
   </v-app>
@@ -106,6 +117,11 @@ export default {
       ]
     };
   },
-  methods: {}
+  methods: {
+    async signOut() {
+      // const r = await this.$firebase.auth().signOut();
+      // console.log(r);
+    }
+  }
 };
 </script>

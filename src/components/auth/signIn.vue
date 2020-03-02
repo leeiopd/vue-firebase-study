@@ -8,7 +8,7 @@
         <a>계정 만들기</a>
       </v-card-title>
       <v-card-actions>
-        <v-btn color="primary" block>
+        <v-btn color="primary" block @click="signInWithGoogle">
           <v-icon>mdi-google</v-icon>
           <v-divider vertical class="mx-3"></v-divider>Google 계정으로 로그인
         </v-btn>
@@ -30,7 +30,7 @@
         <div class="recapcha">이 페이지는 reCAPTCHA로 보호되며, Google 개인정보처리방침 및 서비스 약관의 적용을 받습니다.</div>
       </v-card-text>
       <v-card-actions>
-        <v-checkbox label="로그인 정보 저장" v-model="value" value="value"></v-checkbox>
+        <v-checkbox label="로그인 정보 저장"></v-checkbox>
         <v-spacer></v-spacer>
         <v-btn color="primary">로그인</v-btn>
       </v-card-actions>
@@ -39,7 +39,22 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      valid: false
+    };
+  },
+  methods: {
+    async signInWithGoogle() {
+      const provider = new this.$firebase.auth.GoogleAuthProvider();
+      this.$firebase.auth().languageCode = "ko";
+
+      const r = await this.$firebase.auth().signInWithPopup(provider);
+      // console.log(this);
+    }
+  }
+};
 </script>
 
 <style scoped>
