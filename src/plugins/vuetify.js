@@ -1,13 +1,10 @@
-import Vue from "vue";
-import Vuetify, {
-  VLayout
-} from "vuetify/lib";
-import "vuetify/src/stylus/app.styl";
+import Vue from 'vue';
+import Vuetify from 'vuetify/lib';
 
+Vue.use(Vuetify);
 
-Vue.use(Vuetify, {
-  components: {
-    VLayout
-  },
-  iconfont: "mdi"
+export default new Vuetify({
+    icons: {
+        iconfont: 'mdi'
+    }
 });

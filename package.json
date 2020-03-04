@@ -2,12 +2,15 @@
   "name": "vue-firebase_study_pjt",
   "version": "0.1.0",
   "private": true,
+  "description": "## Project setup ``` yarn install ```",
+  "author": "",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "firebase:deploy": "vue-cli-service build && firebase deploy"
   },
+  "main": "babel.config.js",
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.4.4",
@@ -16,7 +19,7 @@
     "vue-progressbar": "^0.7.5",
     "vue-router": "^3.1.3",
     "vue-toasted": "^1.1.27",
-    "vuetify": "^1.5.5",
+    "vuetify": "^2.2.11",
     "vuex": "^3.1.2"
   },
   "devDependencies": {
@@ -25,22 +28,21 @@
     "@vue/cli-plugin-vuex": "^4.1.0",
     "@vue/cli-service": "^4.1.0",
     "prettier": "^1.19.1",
+    "sass": "^1.19.0",
+    "sass-loader": "^8.0.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
-    "vue-cli-plugin-vuetify": "0.5",
+    "vue-cli-plugin-vuetify": "^2.0.5",
     "vue-template-compiler": "^2.6.10",
-    "vuetify-loader": "^1.0.5"
+    "vuetify-loader": "^1.3.0"
   },
-  "description": "## Project setup ``` yarn install ```",
-  "main": "babel.config.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/leeiopd/vue-firebase-toy.git"
-  },
-  "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/leeiopd/vue-firebase-toy/issues"
   },
-  "homepage": "https://github.com/leeiopd/vue-firebase-toy#readme"
+  "homepage": "https://github.com/leeiopd/vue-firebase-toy#readme",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leeiopd/vue-firebase-toy.git"
+  }
 }
