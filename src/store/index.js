@@ -9,6 +9,8 @@ export default new Vuex.Store({
     title: '원래 제목',
     user: null,
     token: null,
+    // 토큰정보를 해독한 정보
+    claims: null,
   },
 
   mutations: {
@@ -23,6 +25,10 @@ export default new Vuex.Store({
 
     setUserToken(state, token) {
       state.token = token
+    },
+
+    setUserClaims(state, claims) {
+      state.claims = claims
     }
   },
 
@@ -32,9 +38,15 @@ export default new Vuex.Store({
 
       if (!user) return
 
-      user.getIdToken().then(token => {
-        commit('setUserToken', token)
-      })
+      return user.getIdToken()
+        .then(token => {
+          commit('setUserToken', token)
+
+          // function 체인
+          return user.getIdTokenResult()
+        }).then(r => {
+          commit('setUserClaims', r.claims)
+        })
     }
   },
   modules: {}
