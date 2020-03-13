@@ -11,6 +11,8 @@ export default new Vuex.Store({
     token: null,
     // 토큰정보를 해독한 정보
     claims: null,
+
+    firebaseLoaded: false
   },
 
   mutations: {
@@ -29,24 +31,25 @@ export default new Vuex.Store({
 
     setUserClaims(state, claims) {
       state.claims = claims
+    },
+
+    setFirebaseLoaded(state) {
+      state.firebaseLoaded = true
     }
   },
 
   actions: {
-    getUserToken({ commit }, user) {
+    async getUserToken({ commit }, user) {
+      commit('setFirebaseLoaded')
       commit('setUser', user)
 
-      if (!user) return
+      if (!user) return false
 
-      return user.getIdToken()
-        .then(token => {
-          commit('setUserToken', token)
+      const token = await user.getIdToken()
+      commit('setUserToken', token)
+      const { claims } = await user.getIdTokenResult()
+      commit('setUserClaims', claims)
 
-          // function 체인
-          return user.getIdTokenResult()
-        }).then(r => {
-          commit('setUserClaims', r.claims)
-        })
     }
   },
   modules: {}
