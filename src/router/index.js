@@ -1,18 +1,20 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import store from "../store"
 
 Vue.use(VueRouter);
 
+const levelCheck = (to, from, next) => {
+  if (store.state.claims.level === undefined) next('/userProfile')
+  next()
+}
 const routes = [
   {
     path: "/",
     name: "home",
     component: Home,
-    beforeEnter: (to, from, next) => {
-      console.log('bf enter')
-      next()
-    }
+    beforeEnter: levelCheck
   },
   {
     path: "/about",
@@ -65,6 +67,11 @@ const routes = [
       import("../views/sign.vue")
   },
   {
+    path: "/userProfile",
+    component: () =>
+      import("../views/userProfile.vue")
+  },
+  {
     path: "*",
     component: () => import("../views/e404.vue")
   },
@@ -87,10 +94,8 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   Vue.prototype.$Progress.start();
-  setTimeout(() => {
-    if (Vue.prototype.$isFirebaseAuth) next()
+  if (store.state.firebaseLoaded) next()
 
-  }, 2000)
 })
 
 router.afterEach((to, from, next) => {

@@ -70,7 +70,7 @@
 
     <v-content>
       <vue-progress-bar></vue-progress-bar>
-      <v-container grid-list-md v-if="!$isFirebaseAuth">
+      <v-container grid-list-md v-if="!$store.state.firebaseLoaded">
         <v-layout row wrap align-center justify-center>
           <v-card color="transparent" flat>
             <v-card-text class="text-xs-center">

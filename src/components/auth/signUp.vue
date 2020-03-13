@@ -89,7 +89,7 @@ export default {
       // 커스텀 클래임 및 보안규칙으로 엑세스 제어
       // 클라이언트 맞춤 클레임 전파
       // 맞춤 클레임이 수정 된 후 사용자가 로그인하거나 다시 인증하여 -> ID 토큰의 강제 새로고침 됨
-      await this.$firebase.auth().currentUser.getIdToken(true);
+      // await this.$firebase.auth().currentUser.getIdToken(true);
 
       console.log(this);
     },

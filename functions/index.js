@@ -7,6 +7,8 @@ const admin = require('firebase-admin')
 
 admin.initializeApp()
 
+const db = admin.firestore()
+
 console.log(functions.config().admin.email)
 
 exports.helloWorld = functions.https.onRequest((request, response) => {
@@ -16,15 +18,26 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 exports.test = functions.https.onRequest(require("./test"))
 
 // 사용자 생성 시 함수 트리거
-exports.createUser = functions.auth.user().onCreate((user) => {
-    let set = { level: 2 }
-    if (functions.config().admin.email === user.email && user.emailVerified) set.level = 0
+exports.createUser = functions.auth.user().onCreate(async (user) => {
+    const { uid, email, displayName, emailVerified, photoURL, disabled } = user
+    const claims = { level: 2 }
+    if (functions.config().admin.email === user.email && user.emailVerified) claims.level = 0
 
     // 유저에 대한 custom 정보 입력
-    admin.auth().setCustomUserClaims(user.uid, set).then(() => {
-        // The new custom claims will propagate to the user's ID token the
-        // next time a new one is issued.
-    })
+    await admin.auth().setCustomUserClaims(uid, claims)
+
+    const d = {
+        uid, email, displayName, emailVerified, photoURL, disabled
+    }
+
+    // uid key 값에 저장 하므로 create가 아닌 set
+    const r = await db.collection("users").doc(uid).set(d)
+
+    return r
+})
+
+exports.deleteUser = functions.auth.user().onDelete((user) => {
+    return db.collection("users").doc(user.uid).delete()
 })
 
 
