@@ -128,6 +128,12 @@ const routes = [
       next()
     }
   },
+
+  {
+    path: "/admin/users",
+    component: () => import("../views/admin/users.vue"),
+    // beforeEnter: adminCheck
+  },
   {
     path: "/userProfile",
     component: () =>
