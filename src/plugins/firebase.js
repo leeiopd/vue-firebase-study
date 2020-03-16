@@ -10,7 +10,7 @@ import "firebase/auth";
 import "firebase/firestore"
 
 import store from "../store"
-import router from "../router"
+// import router from "../router"
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -23,11 +23,11 @@ firebase.auth().onAuthStateChanged((user) => {
 
     // store.commit('setUser', user)
     store.dispatch('getUserToken', user)
-        .then(() => {
-            if (user) {
-                router.push('/')
-            } else {
-                router.push('/sign')
-            }
-        })
+    // .then(() => {
+    //     if (user) {
+    //         router.push('/')
+    //     } else {
+    //         router.push('/sign')
+    //     }
+    // })
 });
