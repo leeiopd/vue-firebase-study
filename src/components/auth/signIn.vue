@@ -28,12 +28,12 @@
         <v-text-field
           label="이메일"
           v-model="form.email"
-          :rules="[rule.required, rule.minLength(1), rule.maxLength(10)]"
+          :rules="[rule.required, rule.minLength(1), rule.maxLength(30)]"
         ></v-text-field>
         <v-text-field
           label="비밀번호"
           v-model="form.password"
-          :rules="[rule.required, rule.minLength(1), rule.maxLength(6)]"
+          :rules="[rule.required, rule.minLength(1), rule.maxLength(30)]"
         ></v-text-field>
         <div class="recapcha">이 페이지는 reCAPTCHA로 보호되며, Google 개인정보처리방침 및 서비스 약관의 적용을 받습니다.</div>
       </v-card-text>
@@ -77,6 +77,13 @@ export default {
       // 클라이언트 맞춤 클레임 전파
       // 맞춤 클레임이 수정 된 후 사용자가 로그인하거나 다시 인증하여 -> ID 토큰의 강제 새로고침 됨
       // await this.$firebase.auth().currentUser.getIdToken(true);
+
+      const user = this.$firebase.auth().currentUser;
+      await user.getIdToken();
+      await this.$store.dispatch("getUserToken", user);
+      if (this.$store.state.claims.level === undefined)
+        return this.$router.push("/userProfile");
+      this.$router.push("/");
     },
     async signInWithEmailAndPassword() {
       if (!this.$refs.form.validate())
@@ -84,6 +91,12 @@ export default {
       await this.$firebase
         .auth()
         .signInWithEmailAndPassword(this.form.email, this.form.password);
+      const user = this.$firebase.auth().currentUser;
+      await user.getIdToken();
+      await this.$store.dispatch("getUserToken", user);
+      if (this.$store.state.claims.level === undefined)
+        return this.$router.push("/userProfile");
+      this.$router.push("/");
     }
   }
 };
