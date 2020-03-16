@@ -128,13 +128,33 @@ export default {
               to: "/lectures/notes"
             }
           ]
+        },
+        {
+          icon: "mdi-alert-circle",
+          title: "test",
+          active: false,
+          subItems: [
+            {
+              title: "lv0",
+              to: "/test/lv0"
+            },
+            {
+              title: "lv1",
+              to: "/test/lv1"
+            },
+            {
+              title: "lv2",
+              to: "/test/lv2"
+            }
+          ]
         }
       ]
     };
   },
   methods: {
     async signOut() {
-      const r = await this.$firebase.auth().signOut();
+      this.$firebase.auth().signOut();
+      this.$router.push("/sign");
       // console.log(r);
     }
   }

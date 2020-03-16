@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>user profile</p>
-    {{$store.state.claims.level}}
+    <!-- {{$store.state.claims.level}} -->
     {{ JSON.stringify($store.state.claims, null, 2) }}
     <v-btn color="success" @click="tokenUpdate">tokenUpdate</v-btn>
   </div>
