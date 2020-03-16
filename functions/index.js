@@ -16,7 +16,7 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 });
 
 exports.test = functions.https.onRequest(require("./test"))
-
+exports.admin = functions.https.onRequest(require("./admin"))
 // 사용자 생성 시 함수 트리거
 exports.createUser = functions.auth.user().onCreate(async (user) => {
     const { uid, email, displayName, emailVerified, photoURL, disabled } = user

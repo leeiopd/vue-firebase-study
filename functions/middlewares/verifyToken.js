@@ -1,6 +1,15 @@
+
+const admin = require('firebase-admin')
+
 module.exports = (req, res, next, ) => {
     console.log(JSON.stringify(req.headers))
     console.log('here')
-    throw Error('errorororororororororororo')
-    next()
+    admin.auth().verifyIdToken(req.headers.authorization).then(function (decodedToken) {
+        req.claims = decodedToken
+        next()
+    }).catch(function (e) {
+        // handle error
+        console.error(e.message)
+        res.status(401).send()
+    })
 }
