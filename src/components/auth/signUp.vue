@@ -42,6 +42,7 @@
         ></v-text-field>
         <v-text-field
           label="비밀번호"
+          type="password"
           v-model="form.password"
           :rules="[rule.required, rule.minLength(6), rule.maxLength(50)]"
         ></v-text-field>
