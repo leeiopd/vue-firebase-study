@@ -3,7 +3,7 @@ import axios from 'axios'
 import store from '../store'
 
 const firebaseAPI = axios.create({
-    baseURL: "http://localhost:5000/vue-firebase-toy/us-central1/",
+    baseURL: process.env.NODE_ENV === "production" ? "https://vue-firebase-toy.firebaseapp.com/" : "http://localhost:5000/vue-firebase-toy/us-central1/",
     timeout: 5000,
     headers: { 'X-Custome-Header': 'foobar' }
 })

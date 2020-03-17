@@ -5,7 +5,8 @@ const admin = require('firebase-admin')
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
 
-admin.initializeApp()
+// 로컬 서버에서 동작시키기 위해 인증 key값을 받아줌
+admin.initializeApp({ credential: admin.credential.cert(require('./key.json')) })
 
 const db = admin.firestore()
 
