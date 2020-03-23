@@ -49,3 +49,24 @@ exports.deleteUser = functions.auth.user().onDelete((user) => {
 // gcp를 이용하기 때문에 파일을 생성해주어야 함
 // firebase functions:config:get > .runtimeconfig.json
 // .funtimeconfig.json 파일에 환경 구성 설정을 파일로 저장해 두어야함
+// /////////////////////////////////////////////////////////////////
+
+exports.incrementUserCount = functions.firestore
+    .document('users/{userId}')
+    .onCreate((snap, context) => {
+        return db.collection('infos').doc('users').update(
+            'counter', admin.firestore.FieldValue.increment(1)
+        )
+    });
+exports.decrementUserCount = functions.firestore
+    .document('users/{userID}')
+    .onDelete((snap, context) => {
+        return db.collection('infos').doc('users').update(
+            'counter', admin.firestore.FieldValue.increment(-1)
+        )
+    });
+
+
+db.collection('infos').doc('users').get().then(s => {
+    if (!s.exists) db.collection('infos').doc('users').set({ counter: 0 })
+})
