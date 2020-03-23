@@ -15,12 +15,22 @@ app.get('/users', async (req, res) => {
     if (req.claims.level > 0) {
         return res.status(403).send({ message: 'not authorized' })
     }
-    const s = await db.collection('users').get()
+    let { offset, limit, order, sort } = req.query
+    offset = Number(offset)
+    limit = Number(limit)
 
     const r = {
         items: [],
-        totalCount: s.size
+        totalCount: 0
     }
+
+    const t = await db.collection('infos').doc('users').get()
+    r.totalCount = t.data().counter
+
+    // user Collection을 정렬하여 갯수대로 뿌려줌
+    const s = await db.collection('users').orderBy(order, sort).offset(offset).limit(limit).get()
+    console.log(r)
+
 
     s.forEach(element => r.items.push(element.data()));
 
