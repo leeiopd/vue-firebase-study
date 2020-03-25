@@ -10,7 +10,7 @@ admin.initializeApp({ credential: admin.credential.cert(require('./key.json')) }
 
 const db = admin.firestore()
 
-console.log(functions.config().admin.email)
+// console.log(functions.config().admin.email)
 
 exports.helloWorld = functions.https.onRequest((request, response) => {
     response.send("Hello from Firebase!");
