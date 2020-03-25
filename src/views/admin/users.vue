@@ -1,48 +1,67 @@
 <template>
-  <v-card>
-    <!-- <v-card-title primary-title>
-      <v-combobox
-        v-model="search"
-        :items="emails"
-        label="이메일로 검색"
-        :loading="loadingSearch"
-        @update:search-input="searchEmails"
-      ></v-combobox>
-    </v-card-title>-->
-    <v-toolbar dark color="teal">
-      <v-toolbar-title>회원관리</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-autocomplete
-        v-model="email"
-        :loading="loadingSearch"
-        :items="emails"
-        :search-input.sync="search"
-        cache-items
-        class="mx-4"
-        flat
-        hide-no-data
-        hide-details
-        label="검색하실 이메일을 입력하세요."
-        solo-inverted
-        clearable
-      ></v-autocomplete>
-    </v-toolbar>
-    <v-card-text>
-      <v-data-table
-        :headers="headers"
-        :items="items"
-        :options.sync="options"
-        :server-items-length="totalCount"
-        :loading="loading"
-        must-sort
-        class="elevation-1"
-      ></v-data-table>
-    </v-card-text>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn @click="list">get list</v-btn>
-    </v-card-actions>
-  </v-card>
+  <v-container grid-list-md fluid>
+    <v-card>
+      <v-toolbar dark color="teal">
+        <v-toolbar-title>회원관리</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-autocomplete
+          v-model="email"
+          :loading="loadingSearch"
+          :items="emails"
+          :search-input.sync="search"
+          cache-items
+          class="mx-4"
+          flat
+          hide-no-data
+          hide-details
+          label="검색하실 이메일을 입력하세요."
+          solo-inverted
+          clearable
+        ></v-autocomplete>
+      </v-toolbar>
+      <v-card-text>
+        <!-- <v-data-table
+          :headers="headers"
+          :items="items"
+          :options.sync="options"
+          :server-items-length="totalCount"
+          :loading="loading"
+          must-sort
+          class="elevation-1"
+        ></v-data-table>-->
+        <v-data-iterator
+          :items="items"
+          :server-items-length="totalCount"
+          :options.sync="options"
+          :items-per-page="4"
+        >
+          <template v-slot:default="props">
+            <v-layout row wrap>
+              <v-flex xs12 v-if="loading" class="text-center">
+                <v-progress-circular indeterminate color="primary"></v-progress-circular>
+                <p>로딩중 입니다.</p>
+              </v-flex>
+              <v-flex v-else v-for="item in props.items" :key="item.email" xs12 sm6 md4 lg3>
+                <v-card :color="item.color">
+                  <v-list-item three-line>
+                    <v-avatar class="ma-2" size="125" tile>
+                      <!-- filter 사용으로 photoURL null 처리 -->
+                      <v-img :src="item.photoURL|imgCheck"></v-img>
+                    </v-avatar>
+                    <v-list-item-content class="aling-self-start">
+                      <v-list-item-title class="headline mb-2" v-text="item.email"></v-list-item-title>
+                      <!-- filter 사용으로 displayName null 처리 -->
+                      <v-list-item-subtitle>{{item.displayName | nameCheck}}</v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-card>
+              </v-flex>
+            </v-layout>
+          </template>
+        </v-data-iterator>
+      </v-card-text>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
@@ -80,6 +99,20 @@ export default {
     // search의 변경을 감지
     search(val) {
       val && val !== this.searchEmails(val);
+    },
+
+    email(n, o) {
+      if (n !== o) this.list();
+    }
+  },
+  filters: {
+    nameCheck(displayName) {
+      if (displayName) return displayName;
+      return "이름 없음";
+    },
+    imgCheck(photoURL) {
+      if (photoURL) return photoURL;
+      return "https://cdn.vuetifyjs.com/images/cards/foster.jpg";
     }
   },
   methods: {
@@ -100,7 +133,7 @@ export default {
           limit: this.options.itemsPerPage,
           order: this.options.sortBy[0],
           sort: this.options.sortDesc[0] ? "desc" : "asc",
-          search: this.search
+          search: this.email
         }
       });
 
@@ -124,7 +157,6 @@ export default {
           })
           .then(({ data }) => {
             this.emails = data;
-            // this.list();
           })
           // async 가 아닌 promise 이므로 error catch 처리
           .catch(e => {
@@ -135,9 +167,6 @@ export default {
           .finally(() => {
             // loading 비활성화
             this.loadingSearch = false;
-
-            // 검색결과 listup 함수 발동
-            this.list();
           });
       },
       // 사용자가 입력을 기다리는 시간(밀리세컨드) 입니다.
