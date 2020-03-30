@@ -11,6 +11,11 @@ app.use(require('../middlewares/verifyToken'))
 
 // ~/admin 접근 시, 사용자 level Check
 app.use((req, res, next) => {
+    // user 권환 확인
+    if (req.claims.level === undefined) {
+        return res.status(403).send({ message: 'not authorized' })
+    }
+    // user level 확인
     if (req.claims.level > 0) {
         // admin 권한이 없다면
         return res.status(403).send({ message: 'not authorized' })
