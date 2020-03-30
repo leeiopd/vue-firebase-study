@@ -55,7 +55,9 @@ app.get('/users', async (req, res) => {
 
     }
 
-    s.forEach(element => r.items.push(element.data()));
+    s.forEach(element => {
+        r.items.push(element.data())
+    });
 
     // send -> 프론트로 정보 전송
     res.send(r)
@@ -84,6 +86,22 @@ app.get('/search', async (req, res) => {
 
     // 전송
     res.send(items)
+})
+
+app.patch('/user/:uid/level', async (req, res) => {
+    if (!req.params.uid) return this.res.status(400).end()
+    if (req.body.level === undefined) return this.res.status(400).end()
+    const uid = req.params.uid
+    const level = req.body.level
+
+    const claims = { level }
+    // 유저에 대한 custom 정보 입력
+    await admin.auth().setCustomUserClaims(uid, claims)
+    await db.collection('users').doc(uid).update({ claims }).then(() => {
+        console.log("업데이트 성공")
+    })
+
+    res.status(200).end()
 })
 
 

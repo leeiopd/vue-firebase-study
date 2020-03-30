@@ -18,23 +18,19 @@
           solo-inverted
           clearable
         ></v-autocomplete>
+        <v-btn icon @click="list" :disabled="loading">
+          <v-icon>mdi-refresh</v-icon>
+        </v-btn>
       </v-toolbar>
       <v-card-text>
-        <!-- <v-data-table
-          :headers="headers"
-          :items="items"
-          :options.sync="options"
-          :server-items-length="totalCount"
-          :loading="loading"
-          must-sort
-          class="elevation-1"
-        ></v-data-table>-->
         <v-data-iterator
           :items="items"
           :server-items-length="totalCount"
           :options.sync="options"
           :items-per-page="4"
         >
+          <!-- vu-slot은 자식컴포넌트의 엘리먼트를 부모에서 지정할 때 사용합니다. -->
+          <!--  v-slot은 반드시 <template>로 감싸서 사용해야합니다.-->
           <template v-slot:default="props">
             <v-layout row wrap>
               <v-flex xs12 v-if="loading" class="text-center">
@@ -42,19 +38,7 @@
                 <p>로딩중 입니다.</p>
               </v-flex>
               <v-flex v-else v-for="item in props.items" :key="item.email" xs12 sm6 md4 lg3>
-                <v-card :color="item.color">
-                  <v-list-item three-line>
-                    <v-avatar class="ma-2" size="125" tile>
-                      <!-- filter 사용으로 photoURL null 처리 -->
-                      <v-img :src="item.photoURL|imgCheck"></v-img>
-                    </v-avatar>
-                    <v-list-item-content class="aling-self-start">
-                      <v-list-item-title class="headline mb-2" v-text="item.email"></v-list-item-title>
-                      <!-- filter 사용으로 displayName null 처리 -->
-                      <v-list-item-subtitle>{{item.displayName | nameCheck}}</v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-card>
+                <user-card :item="item"></user-card>
               </v-flex>
             </v-layout>
           </template>
@@ -66,7 +50,11 @@
 
 <script>
 import _ from "lodash";
+import userCard from "../../components/userCard";
 export default {
+  components: {
+    userCard
+  },
   data() {
     return {
       totalCount: 0,

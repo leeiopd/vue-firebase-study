@@ -24,6 +24,8 @@ const adminCheck = (to, from, next) => {
   } else {
     if (!store.state.user.emailVerified) return next('/userProfile')
     if (store.state.claims.level > 0) throw Error('관리자 권한이 필요합니다.')
+
+
   }
   next()
 }
@@ -132,7 +134,7 @@ const routes = [
   {
     path: "/admin/users",
     component: () => import("../views/admin/users.vue"),
-    // beforeEnter: adminCheck
+    beforeEnter: adminCheck
   },
   {
     path: "/userProfile",

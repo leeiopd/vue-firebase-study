@@ -18,17 +18,21 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 
 exports.test = functions.https.onRequest(require("./test"))
 exports.admin = functions.https.onRequest(require("./admin"))
+
+
 // 사용자 생성 시 함수 트리거
 exports.createUser = functions.auth.user().onCreate(async (user) => {
     const { uid, email, displayName, emailVerified, photoURL, disabled } = user
     const claims = { level: 2 }
-    if (functions.config().admin.email === user.email && user.emailVerified) claims.level = 0
+    if (functions.config().admin.email === user.email && user.emailVerified) {
+        claims.level = 0
+    }
 
     // 유저에 대한 custom 정보 입력
     await admin.auth().setCustomUserClaims(uid, claims)
 
     const d = {
-        uid, email, displayName, emailVerified, photoURL, disabled
+        uid, email, displayName, emailVerified, photoURL, disabled, claims
     }
 
     // uid key 값에 저장 하므로 create가 아닌 set
