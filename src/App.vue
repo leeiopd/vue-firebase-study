@@ -29,7 +29,7 @@
     </v-navigation-drawer>
     <v-app-bar color="indigo" dark app>
       <v-app-bar-nav-icon @click="drawer = !drawer" v-if="$store.state.user"></v-app-bar-nav-icon>
-      <v-toolbar-title>test 0.0.1</v-toolbar-title>
+      <v-toolbar-title>test 0.0.1 {{env}}</v-toolbar-title>
       <!-- <v-toolbar-title>{{ $store.state.token ? $store.state.token: '토큰없음 안됨' }}</v-toolbar-title> -->
       <v-spacer></v-spacer>
       <v-toolbar-items v-if="$store.state.user">
@@ -91,6 +91,7 @@ export default {
   components: {},
   data() {
     return {
+      env: process.env.NODE_ENV,
       drawer: false,
       items: [
         {
