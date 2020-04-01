@@ -39,15 +39,20 @@ export default new Vuex.Store({
   },
 
   actions: {
-    async getUserToken({ commit }, user) {
-      commit('setFirebaseLoaded')
+    async getUserToken({ dispatch, commit }, user) {
       commit('setUser', user)
 
-      if (!user) return false
+      if (!user) return null
 
-      const token = await user.getIdToken()
+      await dispatch('getToken', user)
+      commit('setFirebaseLoaded')
+
+    },
+    async getToken({ commit, state }) {
+      // getIdToken(true) - 항상 새로운 토큰 갱신
+      const token = await state.user.getIdToken(true)
       commit('setUserToken', token)
-      const { claims } = await user.getIdTokenResult()
+      const { claims } = await state.user.getIdTokenResult()
       commit('setUserClaims', claims)
 
     }
